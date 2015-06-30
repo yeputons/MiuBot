@@ -38,7 +38,7 @@ module.exports.callMethod = function(methodName, options, callback_error, callba
 
 module.exports.reportError = function(message) {
   var author_id = my_config.author_id;
-  callMethod('sendMessage', {
+  module.exports.callMethod('sendMessage', {
     chat_id: author_id,
     text: '===== ERROR =====\n' + message,
   });
@@ -46,6 +46,6 @@ module.exports.reportError = function(message) {
 
 module.exports.errorReporter = function(type) {
   return function(message) {
-    reportError(type + ': '+ message);
+    module.exports.reportError(type + ': '+ message);
   }
 }
