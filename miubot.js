@@ -15,6 +15,12 @@ function processCommands(chat_id, text) {
           text: 'миу'
         }, errorReporter("In 'miu' command")
       );
+    } else if (command = 'woof') {
+      callMethod('sendSticker',
+        { chat_id: chat_id,
+          sticker: 'BQADAwADeAUAAmFKuQAB37zscLaXJQQC'
+        }, errorReporter("In 'woof' command")
+      );
     } else {
       if (chat_id > 0 || m[2]) { // if called in private or in a group by name
         callMethod('sendMessage',
@@ -32,6 +38,12 @@ function messageReceived(message) {
 
   if (message.text) {
     processCommands(chat_id, message.text);
+    if (message.text.toLowerCase().indexOf("миу") != -1) {
+      callMethod('sendMessage', { chat_id: chat_id, text: 'миу ' + emoji.relieved }, errorReporter("In 'miu' reaction"))
+    }
+    if (message.text.toLowerCase().indexOf("мяу") != -1) {
+      callMethod('sendMessage', { chat_id: chat_id, text: 'не "мяу", а "миу"! ' + emoji.angry }, errorReporter("In 'meow' reaction"))
+    }
   }
 }
 
