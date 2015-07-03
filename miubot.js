@@ -15,7 +15,7 @@ function processCommands(chat_id, text) {
           text: 'миу'
         }, errorReporter("In 'miu' command")
       );
-    } else if (command = 'woof') {
+    } else if (command == 'woof') {
       callMethod('sendSticker',
         { chat_id: chat_id,
           sticker: 'BQADAwADeAUAAmFKuQAB37zscLaXJQQC'
