@@ -44,6 +44,9 @@ function messageReceived(message) {
     if (message.text.toLowerCase().indexOf("мяу") != -1) {
       callMethod('sendMessage', { chat_id: chat_id, text: 'не "мяу", а "миу"! ' + emoji.angry }, errorReporter("In 'meow' reaction"))
     }
+    if (message.text.toLowerCase().indexOf("гав") != -1) {
+      callMethod('sendMessage', { chat_id: chat_id, text: 'не "гав", а "/woof"! ' + emoji.smirk_cat }, errorReporter("In 'woof' reaction"))
+    }
   }
 }
 
