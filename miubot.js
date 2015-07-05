@@ -9,6 +9,7 @@ function processCommands(chat_id, text) {
   var m;
   var wasCommand = {};
   var duplicates = false;
+  var saidSomething = false;
   while ((m = commandRegexp.exec(text)) != null) {
     var command = m[1];
     if (wasCommand[command]) {
@@ -16,18 +17,23 @@ function processCommands(chat_id, text) {
       continue;
     }
     wasCommand[command] = true;
+    if (saidSomething) {
+      continue;
+    }
     if (command == 'miu') {
       callMethod('sendMessage',
         { chat_id: chat_id,
           text: 'миу'
         }, errorReporter("In 'miu' command")
       );
+      saidSomething = true;
     } else if (command == 'woof') {
       callMethod('sendSticker',
         { chat_id: chat_id,
           sticker: 'BQADAwADeAUAAmFKuQAB37zscLaXJQQC'
         }, errorReporter("In 'woof' command")
       );
+      saidSomething = true;
     } else {
       if (chat_id > 0 || m[2]) { // if called in private or in a group by name
         callMethod('sendMessage',
@@ -35,6 +41,7 @@ function processCommands(chat_id, text) {
             text: 'не миу ' + emoji.unamused
           }, errorReporter("In unknown command")
         );
+        saidSomething = true;
       }
     }
   }
@@ -44,6 +51,7 @@ function processCommands(chat_id, text) {
         text: emoji.fearful
       }, errorReporter("In reaction to a lot of commands")
     );
+    saidSomething = true;
   }
 }
 
