@@ -7,8 +7,15 @@ var emoji = require('node-emoji').emoji;
 function processCommands(chat_id, text) {
   var commandRegexp = /\/([a-zA-Z0-9_]{1,32})(@MiuBot)?(?:\s|$)/gi;
   var m;
+  var wasCommand = {};
+  var duplicates = false;
   while ((m = commandRegexp.exec(text)) != null) {
     var command = m[1];
+    if (wasCommand[command]) {
+      duplicates = true;
+      continue;
+    }
+    wasCommand[command] = true;
     if (command == 'miu') {
       callMethod('sendMessage',
         { chat_id: chat_id,
@@ -30,6 +37,13 @@ function processCommands(chat_id, text) {
         );
       }
     }
+  }
+  if (duplicates) {
+    callMethod('sendMessage',
+      { chat_id: chat_id,
+        text: emoji.fearful
+      }, errorReporter("In reaction to a lot of commands")
+    );
   }
 }
 
