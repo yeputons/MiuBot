@@ -22,7 +22,7 @@ module.exports.callMethod = function(methodName, options, callback_error, callba
       try {
         body = JSON.parse(body);
       } catch (e) {
-        callback_error('Got invalid JSON');
+        callback_error('Got invalid JSON:\n' + e + "\nBody:\n" + body);
         return;
       }
       if (result.statusCode == 200 && body.ok) {
@@ -32,15 +32,18 @@ module.exports.callMethod = function(methodName, options, callback_error, callba
       }
     });
   }).on('error', function(err) {
-    callback_error('Unable to make HTTPS request');
+    callback_error('Unable to make HTTPS request:\n' + err);
   });
 }
 
 module.exports.reportError = function(message) {
   var author_id = my_config.author_id;
+  var time = new Date();
+  message = "===== ERROR =====\n" + time + "\nTimestamp: " + time.getTime() + "\n" + message;
+  console.log(message);
   module.exports.callMethod('sendMessage', {
     chat_id: author_id,
-    text: '===== ERROR =====\n' + message,
+    text: message,
   });
 }
 
