@@ -47,7 +47,7 @@ module.exports.reportError = function(message) {
     text: message,
   });
   dns.lookup('api.telegram.org', function(err, address, family) {
-    console.log("Debug DNS lookup after reportErro:\n" + "  Err: " + err + "\n  Address: " + address + "\n  Family: " + family);
+    console.log("Debug DNS lookup after reportError:\n" + "  Err: " + err + "\n  Address: " + address + "\n  Family: " + family);
   });
 }
 
