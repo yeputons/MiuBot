@@ -34,9 +34,6 @@ module.exports.callMethod = function(methodName, options, callback_error, callba
     });
   }).on('error', function(err) {
     callback_error('Unable to make HTTPS request:\n' + err);
-    dns.lookup('api.telegram.org', function(err, address, family) {
-      console.log("Debug DNS lookup after HTTPS error:\n" + "  Err: " + err + "\n  Address: " + address + "\n  Family: " + family);
-    });
   });
 }
 
@@ -48,6 +45,9 @@ module.exports.reportError = function(message) {
   module.exports.callMethod('sendMessage', {
     chat_id: author_id,
     text: message,
+  });
+  dns.lookup('api.telegram.org', function(err, address, family) {
+    console.log("Debug DNS lookup after reportErro:\n" + "  Err: " + err + "\n  Address: " + address + "\n  Family: " + family);
   });
 }
 
