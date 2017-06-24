@@ -83,7 +83,9 @@ function requestUpdates() {
       for (var i in data) {
         var upd = data[i];
         updatesOffset = Math.max(updatesOffset, upd.update_id + 1);
-        messageReceived(upd.message);
+        if (upd.message) {
+          messageReceived(upd.message);
+        }
       }
       requestUpdates();
     }
