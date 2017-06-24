@@ -74,7 +74,7 @@ function messageReceived(message) {
 
 var updatesOffset = 0;
 function requestUpdates() {
-  callMethod('getUpdates', {timeout: 25, offset: updatesOffset},
+  callMethod('getUpdates', {timeout: 25, offset: updatesOffset, allowed_updates: ['message']},
     function(error) {
       reportError('In requestUpdates: ' + error);
       setTimeout(requestUpdates, 2000);
