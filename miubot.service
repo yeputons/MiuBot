@@ -1,6 +1,7 @@
 # 1. Put this file in the `/etc/systemd/system` directory with root:root 644 permissions.
 # 2. Edit the `Service` section below.
-# 3. sudo service miubot start
+# 3. Start it immediately: `sudo systemctl start miubot`
+# 4. Enable autostart: `sudo systemctl enable miubot`
 [Unit]
 Description=MiuBot Telegram Bot
 After=network.target
