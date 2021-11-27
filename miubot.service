@@ -1,0 +1,15 @@
+# 1. Put this file in the `/etc/systemd/system` directory with root:root 644 permissions.
+# 2. Edit the `Service` section below.
+# 3. sudo service miubot start
+[Unit]
+Description=MiuBot Telegram Bot
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/TODO/path/to/run.sh
+WorkingDirectory=/TODO/path/to/
+User=TODO
+
+[Install]
+WantedBy=default.target
