@@ -13,6 +13,17 @@ module.exports.callMethod = function(methodName, options, callback_error, callba
   var url_description = url.parse('https://api.telegram.org/bot' + token + '/' + methodName);
   url_description.query = options;
 
+  var completed = function(err, result) {
+    // Only fire once.  May fire twice when a partial HTTP response is received (hence `end`) but connection is lost (hence `error`).
+    // See https://stackoverflow.com/questions/75655671/how-to-guarantee-that-exactly-one-callback-is-fired-in-a-simple-node-js-http-cli/75655750?noredirect=1#comment133472194_75655750
+    completed = null;
+    if (err) {
+      callback_error(err);
+    } else {
+      callback(result);
+    }
+  };
+
   https.get(url.format(url_description), function(result) {
     var body = [];
     result.on('data', function(data) {
@@ -23,17 +34,17 @@ module.exports.callMethod = function(methodName, options, callback_error, callba
       try {
         body = JSON.parse(body);
       } catch (e) {
-        callback_error('Got invalid JSON:\n' + e + "\nBody:\n" + body);
+        completed('Got invalid JSON:\n' + e + "\nBody:\n" + body);
         return;
       }
       if (result.statusCode == 200 && body.ok) {
-        callback(body.result);
+        completed(null, body.result);
       } else {
-        callback_error(body.description);
+        completed(body.description);
       }
     });
   }).on('error', function(err) {
-    callback_error('Unable to make HTTPS request:\n' + err);
+    completed('Unable to make HTTPS request:\n' + err);
   });
 }
 
